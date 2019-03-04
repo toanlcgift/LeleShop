@@ -17,8 +17,8 @@
     <ItemGroup>
         <Content Remove="Web.config" />
     </ItemGroup>
-	<ItemGroup>
-    <Folder Include="wwwroot\" />
+    <ItemGroup>
+      <Folder Include="wwwroot\" />
     </ItemGroup>
     <PropertyGroup>
         <IsWindows Condition="'$(OS)' == 'Windows_NT'">true</IsWindows>

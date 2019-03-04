@@ -23,7 +23,7 @@ namespace DatNenWebApi.Api
             try
             {
                 string folderName = UploadFolderName;
-                string webRootPath = _hostingEnvironment.WebRootPath;
+                string webRootPath = _hostingEnvironment.ContentRootPath;
                 string newPath = Path.Combine(webRootPath, folderName);
                 if (!Directory.Exists(newPath))
                 {
@@ -48,7 +48,7 @@ namespace DatNenWebApi.Api
         public FileResult downloadFile(string fileName)
         {
             string folderName = UploadFolderName;
-            string webRootPath = _hostingEnvironment.WebRootPath;
+            string webRootPath = _hostingEnvironment.ContentRootPath;
             string newPath = Path.Combine(webRootPath, folderName);
             if (!Directory.Exists(newPath))
             {
@@ -64,7 +64,7 @@ namespace DatNenWebApi.Api
         public void Delete(string filename)
         {
             string folderName = UploadFolderName;
-            string webRootPath = _hostingEnvironment.WebRootPath;
+            string webRootPath = _hostingEnvironment.ContentRootPath;
             string newPath = Path.Combine(webRootPath, folderName);
             if (!Directory.Exists(newPath))
             {
