@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+        <SpaRoot>NSwagTool\</SpaRoot>
+        <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+        <PackageReference Include="NSwag.AspNetCore" Version="12.0.10" />
+        <PackageReference Include="NSwag.MSBuild" Version="12.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="2.2.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Remove="Web.config" />
+    </ItemGroup>
+	<ItemGroup>
+    <Folder Include="wwwroot\" />
+    </ItemGroup>
+    <PropertyGroup>
+        <IsWindows Condition="'$(OS)' == 'Windows_NT'">true</IsWindows>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(MSBuildRuntimeType)' == 'Core'">
+        <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
+        <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
+    </PropertyGroup>
+    <Target Name="NSwag" AfterTargets="Build">
+        <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
+        <Exec Command="$(NSwagExe_Core22) run NSwagTool/nswag.json /variables:configuration=$(Configuration)" IgnoreExitCode="true" />
+        <RemoveDir Directories="$(OutDir)References" />
+    </Target>
+    <Target Name="NSwagWin" AfterTargets="Build" Condition="'$(IsWindows)'=='true'">
+        <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
+        <Exec Command="$(NSwagExe_Core22) run NSwagTool/nswag.json /variables:configuration=$(Configuration)" IgnoreExitCode="true" />
+        <RemoveDir Directories="$(OutDir)References" />
+    </Target>
+</Project>
