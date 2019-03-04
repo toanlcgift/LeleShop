@@ -60,6 +60,8 @@ namespace DatNenWebApi
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+            app.UseStaticFiles();
+            app.UseDirectoryBrowser();
 
         }
     }
