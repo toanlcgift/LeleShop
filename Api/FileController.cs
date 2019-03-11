@@ -45,36 +45,6 @@ namespace DatNenWebApi.Api
             }
         }
 
-        [HttpPost, DisableRequestSizeLimit]
-        public string UploadRaw([FromForm]IFormFileCollection files)
-        {
-            try
-            {
-                var file = files[0];
-                string folderName = UploadFolderName;
-                string webRootPath = _hostingEnvironment.ContentRootPath;
-                string newPath = Path.Combine(webRootPath, folderName);
-                if (!Directory.Exists(newPath))
-                {
-                    Directory.CreateDirectory(newPath);
-                }
-                if (file.Length > 0)
-                {
-                    string fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    string fullPath = Path.Combine(newPath, fileName);
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                }
-                return "Upload Successful.";
-            }
-            catch (System.Exception ex)
-            {
-                return "Upload Failed: " + ex.Message;
-            }
-        }
-
         [HttpGet]
         [Route("api/[controller]")]
         public FileResult downloadFile(string fileName)
